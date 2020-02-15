@@ -1,32 +1,95 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <router-link :to="{name: 'panel'}" class="panel-but" v-show="isDisMusicBut"  ref="album">
+      <van-icon name="music-o" size="30px" color="#fff" @click="disMusicBut" />
+    </router-link>
+    <transition :name="silde" :css="css" :mode="mode"
+    >
+      <keep-alive>
+        <router-view class="router-view" ref="dom" />
+      </keep-alive>
+    </transition>
+    <nav-bar  v-show="vanShow"/>
   </div>
 </template>
+<script>
+import TopSearch from "./components/discover/TopSearch";
+import NavBar from "./components/otherPage/Nav";
+import { mapState, mapMutations } from "vuex";
+import { Icon } from "vant";
+export default {
+  data() {
+    return {
+      disTopSearch: true,
+      silde: "",
+      css: true,
+      mode: '',
+      vanShow: true,
+    };
+  },
+  components: {
+    TopSearch,
+    NavBar,
+    [Icon.name]: Icon
+  },
+  computed: {
+    ...mapState(["isDisMusicBut"])
+  },
+  methods: {
+    ...mapMutations(["disMusicBut"])
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  },
+  created() {},
+  mounted() {},
+  watch: {
+    $route(to, from) {
+       this.css = true;
+       this.mode = ''
+      if (from.meta.grade < to.meta.grade) {
+       
+        if (to.name == "login" || to.name == 'song-c') {
+          this.silde = "top";
+          this.mode = 'in-out'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+        } else {
+          this.silde = "forward";
+          setTimeout(() => {
+            this.vanShow = false;
+          },400)
+        }
+        
+      } else if (from.meta.grade > to.meta.grade) {
+        this.vanShow = true;
+        if (from.name == "login" || from.name == 'song-c') {
+          this.silde = "bottom";
+        } else {
+          this.silde = "back";
+        }
+      } else {
+        this.css = false;
+      }
+        
     }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.router-view {
+  position: absolute;
+  height: 100%;
+  overflow-y: auto;
+  width: 100vw;
+  left: 0;
+}
+#app {
+  width: 100vw;
+  bottom: 0;
+  // height: 100vh;
+  .panel-but {
+    position: fixed;
+    right: 16px;
+    top: 10px;
+    z-index: 20;
   }
 }
 </style>

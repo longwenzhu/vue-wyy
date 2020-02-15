@@ -1,0 +1,46 @@
+
+#my-tab .head{
+    display: flex;
+    color: #fff;
+    overflow: auto;
+    padding: 10px 0;
+    user-select: none;
+    text-align: center;
+    position: relative;
+}
+.head::-webkit-scrollbar {
+    display:none;
+}
+#my-tab .active{
+    font-weight: bold;
+}
+#my-tab .title{
+    flex-shrink: 0;
+    flex-grow: 1;
+    padding: 0 20px;
+}
+#my-tab .content{
+    display: none;
+    font-weight: normal;
+   
+}
+.content.active{
+    display: block !important;
+}
+.tab-active{
+    position: absolute;
+    width: 30px;
+    height: 4px;
+    top: 33px;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all .2s;
+}
+ .head-wrap{
+    position: fixed;
+    width: 100vw;
+    top: 39px;
+   transform:translateX(-3px);
+    z-index: 1;
+    background-color:#d23023;
+}
