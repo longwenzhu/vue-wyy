@@ -55,7 +55,7 @@ export default {
           this.silde = "forward";
           setTimeout(() => {
             this.vanShow = false;
-          },400)
+          },400);
         }
         
       } else if (from.meta.grade > to.meta.grade) {
