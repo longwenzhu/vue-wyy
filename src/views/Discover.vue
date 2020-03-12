@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <top-search :disInner="disInner"/>
+    <top-search :disInner="disInner" />
 
     <div v-show="disList">
       <div class="inner">
@@ -15,28 +15,27 @@
           <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
             <div class="body">
               <div class="content">
-                <div class="banner-wrap">
+                <div class="banner-wrap" :style="{height: bannerHeight+'px'}">
                   <swiper :options="swiperOption" class="swipe">
                     <!-- slides -->
                     <swiper-slide v-for="item in banners" :key="item.bannerId" class="item">
                       <a :href="item.url">
-                        <img :src="item.pic" alt>
+                        <img :src="item.pic" alt />
                         <span :style="{backgroundColor: item.titleColor}">{{item.typeTitle}}</span>
                       </a>
                     </swiper-slide>
-                 
                   </swiper>
                 </div>
                 <div class="mock-logo">
                   <ul>
                     <li v-for="(imgs,index) in mockLogo" :key="imgs">
-                      <img :src="`${publicPath}static/${index+1}.jpg`" alt>
+                      <img :src="`${publicPath}static/${index+1}.jpg`" alt />
                       <span>{{imgs}}</span>
                     </li>
                   </ul>
                 </div>
-                <song-template :songData="recommendSongData" title="推荐歌单"/>
-                <song-template :songData="newsSongData" title="最新音乐"/>
+                <song-template :songData="recommendSongData" title="推荐歌单" />
+                <song-template :songData="newsSongData" title="最新音乐" />
               </div>
               <div class="content">content2</div>
             </div>
@@ -73,15 +72,16 @@ export default {
       recommendSongData: null,
       newsSongData: null,
       tips: false,
+      bannerHeight: 0,
       swiperOption: {
-         loop: true,
+        loop: true,
         autoplay: {
           delay: 3000
         },
-       pagination: {
-         el: '.swiper-pagination',
-         type: 'bullets'
-       }
+        pagination: {
+          el: ".swiper-pagination",
+          type: "bullets"
+        }
       }
     };
   },
@@ -100,6 +100,11 @@ export default {
   created() {
     this.axios.get("/banner?type=2").then(res => {
       this.banners = res.data.banners;
+      this.$nextTick(() => {
+        this.bannerHeight = document.getElementsByClassName(
+          "swipe"
+        )[0].offsetHeight;
+      });
     });
     this.getData();
   },

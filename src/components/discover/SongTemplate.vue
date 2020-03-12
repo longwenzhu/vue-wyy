@@ -106,9 +106,7 @@ export default {
     
     align-content: space-between;
     li{
-     
       width: 32.5%;
-      height: 165px;
       position: relative;
        .play-count{
          position: absolute;
@@ -117,6 +115,7 @@ export default {
          font-size: 13px;
          color: rgb(231, 225, 225);
       }
+      
       img{
         width: 100%;
         border-radius: 6px;
@@ -124,7 +123,12 @@ export default {
       .description{
         font-size: 13px;
       }
+      
     }
+    li:nth-child(n+4){
+       margin-top: 16px;
+      }
+    
   }
 }
 
